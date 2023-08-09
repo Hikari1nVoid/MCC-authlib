@@ -198,6 +198,39 @@ namespace MinecraftClient.Protocol
         }
 
         /// <summary>
+        /// Get the Mojang API status
+        /// </summary>
+        /// <returns>Dictionary of the Mojang services</returns>
+        public static MojangServiceStatus GetMojangServiceStatus()
+        {
+            List<Json.JSONData> jsonDataList;
+
+            // Perform web request
+            try
+            {
+                Task<string> fetchTask = httpClient.GetStringAsync("https://status.mojang.com/check");
+                fetchTask.Wait();
+                jsonDataList = Json.ParseJson(fetchTask.Result).DataArray;
+                fetchTask.Dispose();
+            }
+            catch (Exception)
+            {
+                return new MojangServiceStatus();
+            }
+
+            // Convert string to enum values and store them inside a MojangeServiceStatus object.
+            return new MojangServiceStatus(minecraftNet: StringToServiceStatus(jsonDataList[0].Properties["minecraft.net"].StringValue),
+                sessionMinecraftNet: StringToServiceStatus(jsonDataList[1].Properties["session.minecraft.net"].StringValue),
+                accountMojangCom: StringToServiceStatus(jsonDataList[2].Properties["account.mojang.com"].StringValue),
+                authserverMojangCom: StringToServiceStatus(jsonDataList[3].Properties["authserver.mojang.com"].StringValue),
+                sessionserverMojangCom: StringToServiceStatus(jsonDataList[4].Properties["sessionserver.mojang.com"].StringValue),
+                apiMojangCom: StringToServiceStatus(jsonDataList[5].Properties["api.mojang.com"].StringValue),
+                texturesMinecraftNet: StringToServiceStatus(jsonDataList[6].Properties["textures.minecraft.net"].StringValue),
+                mojangCom: StringToServiceStatus(jsonDataList[7].Properties["mojang.com"].StringValue)
+                );
+        }
+
+        /// <summary>
         /// Obtain links to skin, skinmodel and cape of a player.
         /// </summary>
         /// <param uuid="uuid">UUID of a player</param>
