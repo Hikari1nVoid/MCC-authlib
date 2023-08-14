@@ -546,7 +546,7 @@ private static LoginResult YggdrasiLogin(string user, string pass, out SessionTo
             {
                 string result = "";
                 string json_request = "{\"agent\": { \"name\": \"Minecraft\", \"version\": 1 }, \"username\": \"" + JsonEncode(user) + "\", \"password\": \"" + JsonEncode(pass) + "\", \"clientToken\": \"" + JsonEncode(session.ClientID) + "\" }";
-                int code = DoHTTPSPost(Config.Main.General.AuthServer.Host,Config.Main.General.AuthServer.Port, "/authenticate", json_request, ref result);
+                int code = DoHTTPSPost(Config.Main.General.AuthServer.Host,Config.Main.General.AuthServer.Port, "/yggdrasil", json_request, ref result);
                 if (code == 200)
                 {
                     if (result.Contains("availableProfiles\":[]}"))
