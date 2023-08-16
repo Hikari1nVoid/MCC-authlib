@@ -1,4 +1,5 @@
 ## MCC-Authlib
+[![Build MCC and Documents](https://github.com/Hikari1nVoid/MCC-authlib/actions/workflows/build-and-release.yml/badge.svg)](https://github.com/Hikari1nVoid/MCC-authlib/actions/workflows/build-and-release.yml)
 ### Overview
 A fork from https://github.com/MCCTeam/Minecraft-Console-Client,which adds authlib-injector support.
 ### Potential bugs
